@@ -39,6 +39,11 @@ function backtrack(cur, currentWeight, currentPrice) {
     currentPrice = currentPrice + table[tableKey].price;
     cur.push(tableKey);
     backtrack(cur, currentWeight, currentPrice);
+
+    // we need to go back to previous weight and price
+    // when we do backtracking
+    currentWeight = currentWeight - table[tableKey].weight;
+    currentPrice = currentPrice - table[tableKey].price;
     cur.pop();
   }
 }
