@@ -15,7 +15,7 @@ const table = {
   },
 };
 
-let totalPrice = Infinity;
+let totalPrice = Number.MIN_VALUE;
 
 let weightLimit = 100;
 
@@ -26,7 +26,8 @@ function backtrack(cur, currentWeight, currentPrice) {
     return;
   }
 
-  if (currentPrice < totalPrice) {
+  if (currentPrice > totalPrice) {
+    totalPrice = currentPrice;
     res = [...cur];
   }
 
