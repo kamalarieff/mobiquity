@@ -31,9 +31,10 @@ function backtrack(cur, currentWeight, currentPrice) {
   }
 
   for (let i = 0; i < ids.length; i++) {
+    const tableKey = ids[i];
+
     if (cur.includes(ids[i])) continue;
 
-    const tableKey = ids[i];
     currentWeight = currentWeight + table[tableKey].weight;
     currentPrice = currentPrice + table[tableKey].price;
     cur.push(tableKey);
