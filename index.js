@@ -1,59 +1,75 @@
-const ids = [1, 2, 3];
+function engine(inputArr, inputTable, weightLimit) {
+  let totalPrice = Number.MIN_VALUE;
+  let totalWeight = 0;
+  let res = [];
 
-const table = {
-  1: {
-    weight: 1,
-    price: 1,
-  },
-  2: {
-    weight: 2,
-    price: 2,
-  },
-  3: {
-    weight: 3,
-    price: 3,
-  },
-};
+  function backtrack(cur, currentWeight, currentPrice) {
+    // you can uncomment this to see the recursive function in action
+    /* console.log(
+      'cur currentWeight currentPrice',
+      cur,
+      currentWeight,
+      currentPrice,
+    ); */
 
-let totalPrice = Infinity;
+    // this is our base case
+    if (currentWeight > weightLimit) {
+      return;
+    }
 
-let weightLimit = 100;
+    if (currentPrice > totalPrice) {
+      totalPrice = currentPrice;
+      totalWeight = currentWeight;
+      res = [...cur];
+    }
 
-let res = [];
+    // there could be some pairs that have the same price
+    // in this case, we get the one with the less weight
+    if (currentPrice == totalPrice && currentWeight < totalWeight) {
+      totalPrice = currentPrice;
+      totalWeight = currentWeight;
+      res = [...cur];
+    }
 
-function backtrack(cur, currentWeight, currentPrice) {
-  if (currentWeight > weightLimit) {
-    return;
+    // this is the optimization. If you replace this with 0, then it is easier
+    // to see
+    let startingIndex = cur.length == 0 ? 0 : cur[cur.length - 1];
+
+    // this is also our base case.
+    // the recursive function ends when the loop ends
+    for (let i = startingIndex; i < inputArr.length; i++) {
+      const tableKey = inputArr[i];
+
+      // this is avoid duplicate entries
+      if (cur.includes(inputArr[i])) continue;
+
+      currentWeight = currentWeight + inputTable[tableKey].weight;
+      currentPrice = currentPrice + inputTable[tableKey].price;
+      cur.push(tableKey);
+      backtrack(cur, currentWeight, currentPrice);
+
+      // we need to go back to previous weight and price
+      // when we do backtracking
+      currentWeight = currentWeight - inputTable[tableKey].weight;
+      currentPrice = currentPrice - inputTable[tableKey].price;
+      cur.pop();
+    }
   }
 
-  if (currentPrice < totalPrice) {
-    res = [...cur];
-  }
+  // we start the function with an empty array
+  // then we populate it
+  backtrack([], 0, 0);
 
-  for (let i = 0; i < ids.length; i++) {
-    const tableKey = ids[i];
-
-    // this is avoid duplicate entries
-    if (cur.includes(ids[i])) continue;
-
-    currentWeight = currentWeight + table[tableKey].weight;
-    currentPrice = currentPrice + table[tableKey].price;
-    cur.push(tableKey);
-    backtrack(cur, currentWeight, currentPrice);
-
-    // we need to go back to previous weight and price
-    // when we do backtracking
-    currentWeight = currentWeight - table[tableKey].weight;
-    currentPrice = currentPrice - table[tableKey].price;
-    cur.pop();
-  }
+  return res.reduce((previous, current) => {
+    return [
+      ...previous,
+      {
+        id: current,
+        weight: inputTable[current].weight,
+        price: inputTable[current].price,
+      },
+    ];
+  }, []);
 }
 
-backtrack([], 0, 0);
-const temp = res.reduce((previous, current) => {
-  return [
-    ...previous,
-    { id: current, weight: table[current].weight, price: table[current].price },
-  ];
-}, []);
-console.log("temp", temp);
+export default engine;
