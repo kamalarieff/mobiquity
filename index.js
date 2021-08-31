@@ -154,6 +154,7 @@ function backtrack(cur, currentWeight, currentPrice) {
   for (let i = 0; i < ids.length; i++) {
     const tableKey = ids[i];
 
+    // this is avoid duplicate entries
     if (cur.includes(ids[i])) continue;
 
     currentWeight = currentWeight + table[tableKey].weight;
