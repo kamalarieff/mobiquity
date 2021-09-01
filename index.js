@@ -1,8 +1,48 @@
+/**
+ * @description
+ * This is the engine of the program where it contains the logic
+ * to only choose the combinations that does not exceed the weight limit
+ *
+ * It is using a recursive function to generate all the combinations
+ *
+ * @param {Number[]} inputArr - List of ids
+ * @param {Object} inputTable - An object that contains the information about each item
+ * @param {Number} weightLimit - Weight limit
+ * @returns {Object[]} An array of objects that contains the final items
+ *
+ * @example
+ * engine([1, 2], {
+ *   1: {
+ *     weight: 1,
+ *     price: 1
+ *   },
+ *   2: {
+ *     weight: 2,
+ *     price: 2
+ *   }
+ * }, 1)
+ *
+ * //=> [
+ *   {
+ *     id: 1,
+ *     weight: 1,
+ *     price: 1
+ *   }
+ * ]
+ */
 function engine(inputArr, inputTable, weightLimit) {
   let totalPrice = Number.MIN_VALUE;
   let totalWeight = 0;
   let res = [];
 
+  /**
+   * @description
+   * The backtracking function to try out all the combinations
+   *
+   * @param {Number[]} cur - Current iteration
+   * @param {Number} currentWeight - Current weight of the iteration
+   * @param {Number} currentPrice - Current price of the iteration
+   */
   function backtrack(cur, currentWeight, currentPrice) {
     // you can uncomment this to see the recursive function in action
     /* console.log(
