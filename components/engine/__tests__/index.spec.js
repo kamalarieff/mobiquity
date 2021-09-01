@@ -1,4 +1,4 @@
-import engine from "../index";
+import engine from "..";
 
 describe("engine", () => {
   it("test 1", () => {
