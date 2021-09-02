@@ -2,6 +2,32 @@ import { MAX_WEIGHT, MAX_ITEMS, MAX_PRICE } from "../../constants";
 
 /**
  * @description
+ * Implementation of stack data structure
+ * @class
+ *
+ * @example
+ * const stack = new Stack([1, 2, 3])
+ * stack.top()
+ * //=> 3
+ *
+ * stack.isEmpty()
+ * //=> false
+ *
+ * stack[1]
+ * //=> 2
+ **/
+class Stack extends Array {
+  top() {
+    return this[this.length - 1];
+  }
+
+  isEmpty() {
+    return this.length === 0;
+  }
+}
+
+/**
+ * @description
  * This function is to check the constraints of the input
  *
  * @param {Number[]} inputArr - List of ids
@@ -104,7 +130,7 @@ function engine(inputArr, inputTable, weightLimit) {
 
     // this is the optimization. If you replace this with 0, then it is easier
     // to see
-    let startingIndex = cur.length == 0 ? 0 : cur[cur.length - 1];
+    let startingIndex = cur.isEmpty() ? 0 : cur.top();
 
     // this is our base case
     // the recursive function ends when the loop ends
@@ -126,7 +152,7 @@ function engine(inputArr, inputTable, weightLimit) {
 
   // we start the function with an empty array
   // then we populate it
-  backtrack([], 0, 0);
+  backtrack(new Stack(), 0, 0);
 
   return res.reduce((previous, current) => {
     return [
