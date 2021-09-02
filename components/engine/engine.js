@@ -52,7 +52,7 @@ function engine(inputArr, inputTable, weightLimit) {
       currentPrice,
     ); */
 
-    // this is our base case
+    // we don't want to continue to iterate if weight has gone over the limit
     if (currentWeight > weightLimit) {
       return;
     }
@@ -75,7 +75,7 @@ function engine(inputArr, inputTable, weightLimit) {
     // to see
     let startingIndex = cur.length == 0 ? 0 : cur[cur.length - 1];
 
-    // this is also our base case.
+    // this is our base case
     // the recursive function ends when the loop ends
     for (let i = startingIndex; i < inputArr.length; i++) {
       const tableKey = inputArr[i];
