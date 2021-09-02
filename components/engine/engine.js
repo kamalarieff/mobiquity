@@ -1,3 +1,32 @@
+import { MAX_WEIGHT, MAX_ITEMS, MAX_PRICE } from "../../constants";
+
+/**
+ * @description
+ * This function is to check the constraints of the input
+ *
+ * @param {Number[]} inputArr - List of ids
+ * @param {Object} inputTable - An object that contains the information about each item
+ * @param {Number} weightLimit - Weight limit
+ *
+ * @example
+ * checkConstraints([], {}, 1000)
+ *
+ * //=> Error
+ */
+function checkConstraints(inputArr, inputTable, weightLimit) {
+  if (weightLimit > MAX_WEIGHT)
+    throw new Error("Weight limit exceeds max limit.");
+
+  if (inputArr.length > MAX_ITEMS) throw new Error("Items exceeds max limit.");
+
+  Object.values(inputTable).forEach((item) => {
+    if (item.weight > MAX_WEIGHT)
+      throw new Error("Item weight exceeds max limit.");
+    if (item.price > MAX_PRICE)
+      throw new Error("Item price exceeds max limit.");
+  });
+}
+
 /**
  * @description
  * This is the engine of the program where it contains the logic
@@ -31,6 +60,8 @@
  * ]
  */
 function engine(inputArr, inputTable, weightLimit) {
+  checkConstraints(inputArr, inputTable, weightLimit);
+
   let totalPrice = Number.MIN_VALUE;
   let totalWeight = 0;
   let res = [];

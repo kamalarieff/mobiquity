@@ -178,3 +178,39 @@ describe("engine", () => {
     ]);
   });
 });
+
+describe("constraints", () => {
+  it("max weight limit", () => {
+    expect(() => engine([], {}, 1000)).toThrowError(
+      "Weight limit exceeds max limit.",
+    );
+  });
+
+  it("max item limit", () => {
+    const items = new Array(20).fill(0);
+    expect(() => engine(items, {}, 0)).toThrowError("Items exceeds max limit.");
+  });
+
+  it("max weight and price per item", () => {
+    const items = [1];
+    const itemWeightLimit = {
+      1: {
+        weight: 101,
+        price: 10,
+      },
+    };
+    expect(() => engine(items, itemWeightLimit, 0)).toThrowError(
+      "Item weight exceeds max limit.",
+    );
+
+    const itemPriceLimit = {
+      1: {
+        price: 101,
+        weight: 10,
+      },
+    };
+    expect(() => engine(items, itemPriceLimit, 0)).toThrowError(
+      "Item price exceeds max limit.",
+    );
+  });
+});
