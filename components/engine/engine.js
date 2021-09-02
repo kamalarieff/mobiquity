@@ -111,9 +111,6 @@ function engine(inputArr, inputTable, weightLimit) {
     for (let i = startingIndex; i < inputArr.length; i++) {
       const tableKey = inputArr[i];
 
-      // this is avoid duplicate entries
-      if (cur.includes(inputArr[i])) continue;
-
       currentWeight = currentWeight + inputTable[tableKey].weight;
       currentPrice = currentPrice + inputTable[tableKey].price;
       cur.push(tableKey);
